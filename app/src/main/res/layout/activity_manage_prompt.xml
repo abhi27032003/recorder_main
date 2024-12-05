@@ -1,0 +1,171 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    >
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/appBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/nav"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Modify Prompt"
+        app:navigationIcon="@drawable/baseline_arrow_back_24" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="10sp"
+        app:cardCornerRadius="10sp"
+        android:backgroundTint="@color/third"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <TextView
+                       android:id="@+id/title_prompt"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_margin="10sp"
+                       android:textStyle="bold"
+                       android:text="Title"
+                       android:textColor="@color/button"
+                       android:textSize="20sp"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintWidth_percent="0.6">
+
+                   </TextView>
+
+                   <ImageView
+                       android:id="@+id/show_dick"
+                       android:layout_width="40sp"
+                       android:layout_height="40sp"
+                       android:layout_margin="5sp"
+                       android:padding="10sp"
+                       android:src="@mipmap/slide"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintStart_toEndOf="@+id/edit_p"
+                       app:layout_constraintTop_toTopOf="parent">
+
+                   </ImageView>
+
+                   <ImageView
+                       android:id="@+id/edit_p"
+                       android:layout_width="40sp"
+                       android:layout_height="0sp"
+                       android:layout_margin="5sp"
+                       app:layout_constraintWidth_percent="0.05"
+                       android:padding="10sp"
+                       android:src="@mipmap/edit"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintStart_toEndOf="@+id/title_prompt"
+                       app:layout_constraintTop_toTopOf="parent">
+
+                   </ImageView>
+
+                   <ImageView
+                       android:id="@+id/delete_p"
+                       android:layout_width="40sp"
+                       android:layout_height="40sp"
+                       android:layout_margin="5sp"
+                       android:padding="10sp"
+                       android:src="@mipmap/delete"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toEndOf="@+id/show_dick"
+                       app:layout_constraintTop_toTopOf="parent">
+
+                   </ImageView>
+
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+           </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="2sp"
+                >
+
+            </com.google.android.material.divider.MaterialDivider>
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/prompt_text"
+                android:visibility="gone"
+                android:layout_margin="10sp"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                >
+
+            </TextView>
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:padding="6sp"
+
+                android:backgroundTint="@color/button"
+                android:background="@color/button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appBar"
+                >
+                <ImageView
+                    android:id="@+id/save_p"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:padding="10sp"
+                    android:layout_margin="5sp"
+                    android:src="@mipmap/save"
+                    >
+
+                </ImageView>
+                <ImageView
+                    android:id="@+id/share_p"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:padding="10sp"
+                    android:layout_margin="5sp"
+                    android:src="@mipmap/share"
+
+
+                    >
+
+                </ImageView>
+                <ImageView
+                    android:id="@+id/copy_p"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:padding="10sp"
+                    android:layout_margin="5sp"
+                    android:src="@mipmap/copy"
+                    >
+
+                </ImageView>
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
