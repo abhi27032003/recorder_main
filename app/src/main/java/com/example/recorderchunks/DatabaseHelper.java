@@ -7,7 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.recorderchunks.Event;
+import com.example.recorderchunks.Model_Class.Event;
+import com.example.recorderchunks.Model_Class.Recording;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,10 @@ import java.util.List;
 // Database Helper Class
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "EventDatabase.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////       Events       /////////////////////////////////////////////////////////
     public static final String TABLE_NAME = "events";
     public static final String COL_ID = "id";
     public static final String COL_TITLE = "title";
@@ -27,6 +31,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_AUDIO_PATH = "audio_path";
 
 
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////     Recordings     /////////////////////////////////////////////////////////
+    public static final String TABLE_RECORDINGS = "recordings";
+    public static final String COL_RECORDING_ID = "recording_id";
+    public static final String COL_EVENT_ID = "event_id"; // Foreign key
+    public static final String COL_RECORDING_NAME = "recording_name";
+    public static final String COL_FORMAT = "format";
+    public static final String COL_LENGTH = "length";
+    public static final String COL_URL = "url";
+    public static final String COL_DATE = "creation_d_and_t";
+    public static final String COL_IS_RECORDED = "is_recorded";
+
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -34,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COL_ID + " INTEGER PRIMARY KEY ,"
                 + COL_TITLE + " TEXT,"
                 + COL_DESCRIPTION + " TEXT,"
                 + COL_CREATION_DATE + " TEXT,"
@@ -45,6 +64,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_AUDIO_PATH + " TEXT" +
                 ")";
         db.execSQL(CREATE_TABLE);
+
+        ////////////////////////////
+        String CREATE_RECORDINGS_TABLE = "CREATE TABLE " + TABLE_RECORDINGS + "("
+                + COL_RECORDING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COL_EVENT_ID + " INTEGER,"
+                + COL_RECORDING_NAME + " TEXT,"
+                + COL_FORMAT + " TEXT,"
+                + COL_LENGTH + " TEXT,"
+                + COL_URL + " TEXT,"
+                + COL_DATE + " TEXT,"
+
+                + COL_IS_RECORDED + " INTEGER,"
+                + "FOREIGN KEY(" + COL_EVENT_ID + ") REFERENCES " + TABLE_NAME + "(" + COL_ID + ")"
+                + ")";
+        db.execSQL(CREATE_RECORDINGS_TABLE);
     }
 
     @Override
@@ -53,9 +87,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertEvent(String title, String description, String creationDate, String creationTime, String eventDate, String eventTime,String audioPath) {
+    public boolean insertEvent(int eventid,String title, String description, String creationDate, String creationTime, String eventDate, String eventTime,String audioPath) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COL_ID, eventid);
         values.put(COL_TITLE, title);
         values.put(COL_DESCRIPTION, description);
         values.put(COL_CREATION_DATE, creationDate);
@@ -67,6 +102,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_NAME, null, values);
         return result != -1;
     }
+    public boolean updateEvent(int eventId, String title, String description, String creationDate, String creationTime, String eventDate, String eventTime, String audioPath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_TITLE, title);
+        values.put(COL_DESCRIPTION, description);
+        values.put(COL_CREATION_DATE, creationDate);
+        values.put(COL_CREATION_TIME, creationTime);
+        values.put(COL_EVENT_DATE, eventDate);
+        values.put(COL_EVENT_TIME, eventTime);
+        values.put(COL_AUDIO_PATH, audioPath);
+
+        int rowsAffected = db.update(TABLE_NAME, values, COL_ID + " = ?", new String[]{String.valueOf(eventId)});
+        return rowsAffected > 0; // Return true if at least one row was updated
+    }
+
 
     // Retrieve all events
     public List<Event> getAllEvents() {
@@ -127,4 +177,89 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int rowsDeleted = db.delete(TABLE_NAME, COL_ID + " = ?", new String[]{String.valueOf(id)});
         return rowsDeleted > 0;
     }
+
+    public boolean insertRecording(int eventId,String d_and_t, String name, String format, String length, String url, boolean isRecorded) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_EVENT_ID, eventId);
+        values.put(COL_RECORDING_NAME, name);
+        values.put(COL_FORMAT, format);
+        values.put(COL_LENGTH, length);
+        values.put(COL_URL, url);
+        values.put(COL_DATE, d_and_t);
+
+        values.put(COL_IS_RECORDED, isRecorded ? 1 : 0);
+
+        long result = db.insert(TABLE_RECORDINGS, null, values);
+        return result != -1;
+    }
+    public List<Recording> getRecordingsByEventId(int eventId) {
+        List<Recording> recordingsList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_RECORDINGS,
+                null,
+                COL_EVENT_ID + " = ?",
+                new String[]{String.valueOf(eventId)},
+                null,
+                null,
+                COL_RECORDING_ID + " DESC"
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") Recording recording = new Recording(
+                        cursor.getInt(cursor.getColumnIndex(COL_RECORDING_ID)),
+                        cursor.getInt(cursor.getColumnIndex(COL_EVENT_ID)),
+                        cursor.getString(cursor.getColumnIndex(COL_DATE)),
+                        cursor.getString(cursor.getColumnIndex(COL_RECORDING_NAME)),
+                        cursor.getString(cursor.getColumnIndex(COL_FORMAT)),
+                        cursor.getString(cursor.getColumnIndex(COL_LENGTH)),
+                        cursor.getString(cursor.getColumnIndex(COL_URL)),
+                        cursor.getInt(cursor.getColumnIndex(COL_IS_RECORDED)) == 1
+                );
+                recordingsList.add(recording);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return recordingsList;
+    }
+    public boolean deleteRecording(int recordingId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowsDeleted = db.delete(TABLE_RECORDINGS, COL_EVENT_ID + " = ?", new String[]{String.valueOf(recordingId)});
+        return rowsDeleted > 0;
+    }
+    @SuppressLint("Range")
+    public int getNextEventId() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT MAX(" + COL_ID + ") AS max_id FROM " + TABLE_NAME, null);
+
+        int nextId = 1; // Default ID if the table is empty
+        if (cursor.moveToFirst() && cursor.getInt(cursor.getColumnIndex("max_id")) >= 0) {
+            nextId = cursor.getInt(cursor.getColumnIndex("max_id")) + 1;
+        }
+
+        cursor.close();
+        return nextId;
+    }
+    public int getMaxEventIdFromRecordings() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT MAX(" + COL_EVENT_ID + ") FROM " + TABLE_RECORDINGS, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int maxEventId = cursor.getInt(0);  // Get the maximum event_id
+            cursor.close();
+            return maxEventId;  // Return the max event_id found
+        }
+
+        cursor.close();
+        return 0;  // Return 0 if no records are found
+    }
+    public boolean deleteAllRecordingsByEventId(int eventId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowsDeleted = db.delete(TABLE_RECORDINGS, COL_EVENT_ID + " = ?", new String[]{String.valueOf(eventId)});
+
+        return rowsDeleted > 0;  // Returns true if rows were deleted, otherwise false
+    }
+
 }
