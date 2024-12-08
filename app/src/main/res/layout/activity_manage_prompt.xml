@@ -16,156 +16,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Modify Prompt"
-        app:navigationIcon="@drawable/baseline_arrow_back_24" />
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_margin="10sp"
-        app:cardCornerRadius="10sp"
-        android:backgroundTint="@color/third"
-        app:layout_constraintTop_toBottomOf="@+id/appBar"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        app:navigationIcon="@drawable/baseline_arrow_back_24" >
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            >
 
-               <androidx.constraintlayout.widget.ConstraintLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
-
-                   <TextView
-                       android:id="@+id/title_prompt"
-                       android:layout_width="0dp"
-                       android:layout_height="match_parent"
-                       android:layout_margin="10sp"
-                       android:textStyle="bold"
-                       android:text="Title"
-                       android:textColor="@color/button"
-                       android:textSize="20sp"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintWidth_percent="0.6">
-
-                   </TextView>
-
-                   <ImageView
-                       android:id="@+id/show_dick"
-                       android:layout_width="40sp"
-                       android:layout_height="40sp"
-                       android:layout_margin="5sp"
-                       android:padding="10sp"
-                       android:src="@mipmap/slide"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintStart_toEndOf="@+id/edit_p"
-                       app:layout_constraintTop_toTopOf="parent">
-
-                   </ImageView>
-
-                   <ImageView
-                       android:id="@+id/edit_p"
-                       android:layout_width="40sp"
-                       android:layout_height="0sp"
-                       android:layout_margin="5sp"
-                       app:layout_constraintWidth_percent="0.05"
-                       android:padding="10sp"
-                       android:src="@mipmap/edit"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintStart_toEndOf="@+id/title_prompt"
-                       app:layout_constraintTop_toTopOf="parent">
-
-                   </ImageView>
-
-                   <ImageView
-                       android:id="@+id/delete_p"
-                       android:layout_width="40sp"
-                       android:layout_height="40sp"
-                       android:layout_margin="5sp"
-                       android:padding="10sp"
-                       android:src="@mipmap/delete"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toEndOf="@+id/show_dick"
-                       app:layout_constraintTop_toTopOf="parent">
-
-                   </ImageView>
-
-
-               </androidx.constraintlayout.widget.ConstraintLayout>
-           </LinearLayout>
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="2sp"
-                >
-
-            </com.google.android.material.divider.MaterialDivider>
-            <TextView
-                android:layout_width="match_parent"
-                android:id="@+id/prompt_text"
-                android:visibility="gone"
-                android:layout_margin="10sp"
-                android:textSize="15sp"
-                android:layout_height="wrap_content"
-                >
-
-            </TextView>
             <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="horizontal"
-                android:padding="6sp"
+                android:id="@+id/linearLayout3"
+                android:layout_width="0dp"
+                android:layout_margin="10sp"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
 
-                android:backgroundTint="@color/button"
-                android:background="@color/button"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appBar"
-                >
-                <ImageView
-                    android:id="@+id/save_p"
-                    android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:padding="10sp"
-                    android:layout_margin="5sp"
-                    android:src="@mipmap/save"
-                    >
+                app:layout_constraintTop_toTopOf="parent">
 
-                </ImageView>
-                <ImageView
-                    android:id="@+id/share_p"
-                    android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:padding="10sp"
-                    android:layout_margin="5sp"
-                    android:src="@mipmap/share"
-
-
-                    >
-
-                </ImageView>
-                <ImageView
-                    android:id="@+id/copy_p"
-                    android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:padding="10sp"
-                    android:layout_margin="5sp"
-                    android:src="@mipmap/copy"
-                    >
-
-                </ImageView>
-
-
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="VIP Research Group"
+                    android:textColor="@color/secondary"
+                    android:textSize="20sp"
+                    android:textStyle="normal"></TextView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30sp"
+                    android:text="Modify Prompts"
+                    android:textStyle="bold"
+                    android:textColor="@color/third"
+                    android:textSize="25sp"
+                    ></TextView>
 
             </LinearLayout>
+            <ImageView
+                android:id="@+id/add_prompt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/addbutton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Prompt_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
